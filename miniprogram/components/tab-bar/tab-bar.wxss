@@ -1,0 +1,35 @@
+/* 谜宫红金主题底部导航 */
+:host { display: block; }
+.tabbar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 100;
+  background: rgba(16, 13, 14, .96);
+  border-top: 1rpx solid rgba(201, 160, 99, .22);
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, .3);
+  backdrop-filter: blur(10rpx);
+  /* 原生安全区适配（替代 JS 测量，避免与页面留白叠加成"双保险"） */
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.tabbar-items { display: flex; }
+.titem {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  padding: 10rpx 0 4rpx;
+}
+.ticon {
+  width: 48rpx; height: 48rpx; border-radius: 14rpx;
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .2s ease;
+}
+.ticon-img { width: 40rpx; height: 40rpx; display: block; }
+.tlabel {
+  margin-top: 2rpx; font-size: 20rpx; line-height: 1.2; color: #8C8680;
+  font-family: "Songti SC", "STSong", "SimSun", serif;
+}
+/* 当前 tab：金框高亮 + 文字提亮 */
+.titem.on .ticon {
+  background: linear-gradient(135deg, rgba(192, 32, 39, .25), rgba(201, 160, 99, .12));
+  border: 1rpx solid rgba(201, 160, 99, .5);
+  transform: translateY(-2rpx);
+  box-shadow: 0 0 14rpx rgba(201, 160, 99, .35);
+}
+.titem.on .tlabel { color: #E0C48A; font-weight: 600; }

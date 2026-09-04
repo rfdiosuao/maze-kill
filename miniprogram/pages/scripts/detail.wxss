@@ -1,0 +1,12 @@
+.banner { display: flex; gap: 24rpx; padding: 30rpx 24rpx; background: linear-gradient(160deg, #3A0709, #0D0B0C); }
+.cover-lg { width: 220rpx; height: 300rpx; border-radius: 14rpx; background: #241719; border: 1rpx solid rgba(212,175,55,.3); }
+.banner-info { flex: 1; padding-top: 20rpx; }
+.name { font-size: 40rpx; font-weight: 700; line-height: 1.4; }
+.tags { margin-top: 20rpx; }
+.meta-grid { justify-content: space-around; }
+.meta-item { text-align: center; }
+.intro { font-size: 27rpx; color: #CFC8C0; }
+.role { display: flex; justify-content: space-between; padding: 14rpx 0; border-bottom: 1rpx solid rgba(255,255,255,.05); }
+.role:last-child { border-bottom: none; }
+.role-name { font-size: 29rpx; }
+.footer { padding: 30rpx 24rpx 60rpx; }

@@ -1,0 +1,9 @@
+.login-wrap { padding-top: 100rpx; }
+.login-logo { display: block; width: 180rpx; height: 180rpx; margin: 0 auto 24rpx; }
+.login-brand { text-align: center; font-size: 44rpx; font-weight: 700; letter-spacing: 6rpx; }
+.login-sub { text-align: center; color: #D4AF37; font-size: 24rpx; margin: 12rpx 0 40rpx; letter-spacing: 4rpx; }
+.login-card { margin-top: 40rpx; }
+.frow { display: flex; align-items: center; gap: 16rpx; padding: 14rpx 0; }
+.flabel { width: 90rpx; color: #CFC8C0; }
+.finput { flex: 1; }
+.tip { margin-top: 20rpx; font-size: 20rpx; text-align: center; }

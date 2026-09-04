@@ -1,0 +1,40 @@
+<block wx:if="{{s}}">
+  <view class="banner">
+    <image class="cover-lg" src="{{s.cover}}" mode="aspectFill" />
+    <view class="banner-info">
+      <view class="name">{{s.name}}</view>
+      <view class="tags">
+        <text class="tag {{s.grade==='18+'?'tag-red':''}}">{{s.grade}}</text>
+        <text class="tag">{{s.type}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="row meta-grid">
+      <view class="meta-item"><view class="price">¥{{s.price}}</view><view class="muted">场次价格</view></view>
+      <view class="meta-item"><view class="card-title">{{s.players_min}}-{{s.players_max}}人</view><view class="muted">人数</view></view>
+      <view class="meta-item"><view class="card-title">{{s.duration_min}}分钟</view><view class="muted">时长</view></view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title gold">剧本简介</view>
+    <view class="divider"></view>
+    <view class="intro">{{s.intro}}</view>
+  </view>
+
+  <view class="card">
+    <view class="card-title gold">角色清单</view>
+    <view class="divider"></view>
+    <view class="role" wx:for="{{s.roles}}" wx:key="name">
+      <text class="role-name">{{item.name}}</text>
+      <text class="muted">限定角色</text>
+    </view>
+    <view wx:if="{{!s.roles.length}}" class="empty">角色信息待补充</view>
+  </view>
+
+  <view class="footer">
+    <view class="btn-red" bindtap="goBooking">预约此本</view>
+  </view>
+</block>

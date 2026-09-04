@@ -1,0 +1,114 @@
+<!-- 全屏背景图（本地图不能用 wxss background-image，真机会失效） -->
+<image class="page-bg" src="/assets/bg-home.jpg" mode="widthFix"/>
+
+<!-- 顶部栏：印章 Logo + 宋体店名 + 搜索胶囊（避开微信胶囊） -->
+<view class="nav" style="padding-top: {{statusBar}}px">
+  <view class="nav-row">
+    <image class="nav-logo" src="/assets/logo-circle.png" mode="heightFix"/>
+    <text class="nav-title">谜宫·全息演绎</text>
+    <view class="nav-search" bindtap="goScripts">
+      <image class="nav-search-ic" src="/assets/icons/search.png"/>
+      <text class="nav-search-txt">搜剧本 / DM</text>
+    </view>
+    <view class="nav-cap" style="width: {{capsuleW}}px"></view>
+  </view>
+</view>
+
+<!-- 主 Banner：品牌宣言 + 三个胶囊操作 -->
+<view class="banner">
+  <view class="banner-tag">全息沉浸 · 真实演绎</view>
+  <view class="banner-title">谜宫<text class="accent">·</text>全息</view>
+  <view class="banner-title">剧本演绎</view>
+  <view class="banner-sub">中式剧场 · 沉浸体验 · 专业 DM</view>
+  <view class="banner-actions">
+    <view class="banner-btn" bindtap="onNav">
+      <image class="banner-btn-ic" src="/assets/icons/location-w.png"/>
+      <text>导航到店</text>
+    </view>
+    <view class="banner-btn secondary" bindtap="onCall">
+      <image class="banner-btn-ic" src="/assets/icons/phone-w.png"/>
+      <text>电话预订</text>
+    </view>
+    <view class="banner-btn secondary" bindtap="onWechat">
+      <image class="banner-btn-ic" src="/assets/icons/chat-w.png"/>
+      <text>客服微信</text>
+    </view>
+  </view>
+</view>
+
+<!-- 四宫格快捷入口 -->
+<view class="grid-4">
+  <view class="grid-item" wx:for="{{entries}}" wx:key="key" bindtap="onEntry" data-key="{{item.key}}">
+    <view class="grid-icon"><image class="grid-icon-img" src="{{item.icon}}"/></view>
+    <text class="grid-label">{{item.title}}</text>
+  </view>
+</view>
+
+<!-- 热门剧本横滑 -->
+<view class="section" wx:if="{{hotScripts.length}}">
+  <view class="section-head">
+    <view class="section-title">热门剧本</view>
+    <view class="section-more" bindtap="goScripts">查看更多 ›</view>
+  </view>
+  <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="h-scroll">
+    <view class="script-card" wx:for="{{hotScripts}}" wx:key="id" bindtap="goScriptDetail" data-id="{{item.id}}">
+      <view class="script-cover">
+        <image wx:if="{{item.cover}}" src="{{item.cover}}" mode="aspectFill"/>
+        <view wx:else class="cover-fallback">谜</view>
+        <view class="badge badge-{{item.badgeClass}}" wx:if="{{item.grade}}">{{item.grade}}</view>
+      </view>
+      <view class="script-meta">
+        <view class="script-name">{{item.name}}</view>
+        <view class="chip-static">{{item.type}}</view>
+      </view>
+    </view>
+  </scroll-view>
+</view>
+
+<!-- 主持人 / DM 横滑 -->
+<view class="section" wx:if="{{dms.length}}">
+  <view class="section-head">
+    <view class="section-title">主持人 / DM</view>
+    <view class="section-more" bindtap="goDms">查看更多 ›</view>
+  </view>
+  <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="h-scroll">
+    <view class="dm-card" wx:for="{{dms}}" wx:key="id" bindtap="goDms">
+      <view class="dm-avatar">
+        <image wx:if="{{item.photo}}" src="{{item.photo}}" mode="aspectFill"/>
+        <view wx:else class="avatar-fallback">{{item.initial}}</view>
+      </view>
+      <text class="dm-name">{{item.stage_name}}</text>
+      <text class="dm-style">{{item.style}}</text>
+    </view>
+  </scroll-view>
+</view>
+
+<!-- 会员卡横条 -->
+<view class="member-bar" bindtap="goMember">
+  <view class="member-l">
+    <view class="member-title">店铺会员卡</view>
+    <view class="member-sub">{{memberText}}</view>
+  </view>
+  <view class="member-btn">{{member.card ? '查看会员卡' : '立即开通'}}</view>
+</view>
+
+<!-- 公告（后端配置后自动展示） -->
+<view class="notice" wx:if="{{setting.notice}}">
+  <text class="notice-tag">公告</text>
+  <text class="notice-text">{{setting.notice}}</text>
+</view>
+
+<!-- 左侧悬浮电话球 -->
+<view class="call-ball" bindtap="onCall">
+  <image class="call-ball-ic" src="/assets/icons/phone-w.png"/>
+</view>
+
+<!-- 页脚：营业时段（页面最底部） -->
+<view class="foot-time">
+  <image class="foot-time-ic" src="/assets/icons/clock.png"/>
+  <text class="foot-time-txt">午场 {{setting.noon_start || '13:00'}} · 晚场 {{setting.night_start || '19:00'}} · 未来30天可约</text>
+</view>
+
+<!-- 底部留白 + 导航：首页/剧本/帖子/我的 -->
+<view class="page-bottom"></view>
+<tab-bar active="index"/>

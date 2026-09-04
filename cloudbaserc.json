@@ -1,0 +1,26 @@
+{
+  "envId": "cloud1-d2gf4md2b6774cdc0",
+  "framework": {
+    "name": "maze-kill",
+    "plugins": {
+      "server": {
+        "use": "@cloudbase/framework-plugin-container",
+        "inputs": {
+          "serviceName": "maze-kill-api",
+          "servicePath": "/",
+          "localPath": "./server",
+          "uploadType": "package",
+          "dockerfile": "Dockerfile",
+          "containerPort": 80,
+          "cpu": 0.5,
+          "mem": 1,
+          "minNum": 1,
+          "maxNum": 2,
+          "envVariables": {
+            "JWT_SECRET": "maze_kill_secret_2026"
+          }
+        }
+      }
+    }
+  }
+}

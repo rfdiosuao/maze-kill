@@ -1,0 +1,18 @@
+<!-- 底部导航条（覆盖微信原生导航居底的安全区） -->
+<view class="tabbar">
+  <view class="tabbar-items">
+    <view
+      class="titem {{active===item.key?'on':''}}"
+      wx:for="{{tabs}}"
+      wx:key="key"
+      data-key="{{item.key}}"
+      data-url="{{item.url}}"
+      bindtap="onTap"
+    >
+      <view class="ticon">
+        <image class="ticon-img" src="{{item.icon}}"/>
+      </view>
+      <text class="tlabel">{{item.text}}</text>
+    </view>
+  </view>
+</view>

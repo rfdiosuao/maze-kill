@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "发现 · 帖子",
+  "usingComponents": {
+    "tab-bar": "/components/tab-bar/tab-bar"
+  }
+}

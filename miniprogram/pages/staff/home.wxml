@@ -1,0 +1,94 @@
+<view class="head">
+  <view>
+    <view class="head-name">{{staff.stage_name || staff.name}}</view>
+    <view class="muted">{{staff.isPlayer ? '小程序用户 · 微信登录' : '编号 ' + staff.staff_no + ' · ' + staff.name}}</view>
+  </view>
+  <view class="btn-ghost out" bindtap="logout">退出</view>
+</view>
+
+<view class="tabs">
+  <view class="tab {{tab==='schedule'?'on':''}}" bindtap="switchTab" data-k="schedule">我的排班</view>
+  <view class="tab {{tab==='salary'?'on':''}}" bindtap="switchTab" data-k="salary">我的薪资</view>
+  <view class="tab {{tab==='commission'?'on':''}}" bindtap="switchTab" data-k="commission">提成表</view>
+  <view class="tab {{tab==='profile'?'on':''}}" bindtap="switchTab" data-k="profile">资料</view>
+</view>
+
+<!-- 我的排班 -->
+<block wx:if="{{tab==='schedule'}}">
+  <view class="card" wx:for="{{schedule}}" wx:key="id">
+    <view class="row">
+      <view class="card-title">{{item.script_name}}</view>
+      <view class="spacer"></view>
+      <text class="tag {{item.source==='auto'?'tag-warn':item.source==='locked'?'tag-red':'tag-gray'}}">
+        {{item.source==='locked'?'玩家锁卡':item.source==='auto'?'自动补位':'手动排班'}}</text>
+    </view>
+    <view class="muted">{{item.work_date}} {{item.slot==='noon'?'午场':'晚场'}} {{item.start_time}}
+      <text wx:if="{{item.role_name}}"> · 角色：{{item.role_name}}</text></view>
+  </view>
+  <view wx:if="{{!schedule.length}}" class="empty">暂无排班记录</view>
+</block>
+
+<!-- 我的薪资：仅本人可见 -->
+<block wx:if="{{tab==='salary'}}">
+  <scroll-view scroll-x class="months">
+    <view class="chip {{month===m?'on':''}}" wx:for="{{months}}" wx:key="*this" wx:for-item="m" bindtap="onMonth" data-m="{{m}}">{{m}}</view>
+  </scroll-view>
+  <block wx:if="{{salary}}">
+    <view class="card">
+      <view class="card-title gold">{{salary.month}} 薪资单（仅本人可见）</view>
+      <view class="divider"></view>
+      <view class="srow"><text>底薪</text><text class="price">¥{{salary.base_salary}}</text></view>
+      <view class="srow"><text>出场提成（{{salary.detail.length}}场）</text><text class="price">+¥{{salary.commission}}</text></view>
+      <view class="srow"><text>阶梯奖金</text><text class="price">+¥{{salary.bonus}}</text></view>
+      <view class="srow"><text>扣除</text><text class="warn">-¥{{salary.deduction}}</text></view>
+      <view class="divider"></view>
+      <view class="srow total"><text>应发合计</text><text class="price big">¥{{salary.payable}}</text></view>
+    </view>
+    <view class="card">
+      <view class="card-title gold">出场明细（可追溯）</view>
+      <view class="divider"></view>
+      <view class="drow" wx:for="{{salary.detail}}" wx:key="idx">
+        <view class="muted">{{item.date}} {{item.slot}}</view>
+        <view class="dscript">{{item.script}} · {{item.role}}</view>
+        <view class="spacer"></view>
+        <text class="gold">¥{{item.commission}}</text>
+      </view>
+      <view wx:if="{{!salary.detail.length}}" class="empty">本月暂无出场</view>
+    </view>
+  </block>
+</block>
+
+<!-- 公开提成表 -->
+<block wx:if="{{tab==='commission'}}">
+  <view class="bar"><input class="input" placeholder="搜索剧本" value="{{comm.keyword}}" bindinput="onCommSearch" /></view>
+  <view class="card" wx:for="{{comm.list}}" wx:key="id">
+    <view class="row" bindtap="expand" data-id="{{item.id}}">
+      <view class="card-title">{{item.name}} <text class="tag {{item.grade==='18+'?'tag-red':''}}">{{item.grade}}</text></view>
+      <view class="spacer"></view>
+      <text class="muted">{{comm.expanded[item.id]?'收起':'展开'}}</text>
+    </view>
+    <view class="roles" wx:if="{{comm.expanded[item.id]}}">
+      <view class="role" wx:for="{{item.roles}}" wx:for-item="r" wx:key="name">
+        <text>{{r.name}}</text><text class="gold">单场 ¥{{r.commission}}</text>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{!comm.list.length}}" class="empty">暂无数据</view>
+</block>
+
+<!-- 资料编辑 -->
+<block wx:if="{{tab==='profile'}}">
+  <view class="card">
+    <view class="frow"><text class="flabel">花名</text><input class="input finput" value="{{me.stage_name}}" disabled /></view>
+    <view class="frow"><text class="flabel">电话</text><input class="input finput" value="{{me.phone}}" data-f="phone" bindinput="onMeInput" /></view>
+    <view class="frow col"><text class="flabel">个人简介</text><textarea class="input farea" value="{{me.intro}}" data-f="intro" bindinput="onMeInput" maxlength="200" /></view>
+    <view class="divider"></view>
+    <block wx:if="{{!staff.isPlayer}}">
+      <view class="card-title gold">修改密码</view>
+      <view class="frow"><text class="flabel">原密码</text><input class="input finput" password value="{{me.old_password}}" data-f="old_password" bindinput="onMeInput" /></view>
+      <view class="frow"><text class="flabel">新密码</text><input class="input finput" password value="{{me.new_password}}" data-f="new_password" bindinput="onMeInput" /></view>
+    </block>
+    <view class="btn-red" bindtap="saveMe">保存资料</view>
+    <view class="muted tip">底薪与薪资为保密信息，仅本人与管理员可见{{staff.isPlayer ? '；玩家DM凭微信登录，无需密码' : ''}}</view>
+  </view>
+</block>

@@ -1,0 +1,79 @@
+/* 全局主题：黑红庄重（贴合谜宫大厅），主色#B11218 暗红#7A0E13 近黑#0D0B0C 金#D4AF37 */
+page {
+  background: #0D0B0C;
+  color: #F5EFE6;
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+view, text, input, textarea, button { box-sizing: border-box; }
+
+/* 深红渐变卡片 + 细描边 */
+.card {
+  background: linear-gradient(135deg, #1A1113 0%, #120C0D 100%);
+  border: 1rpx solid rgba(212, 175, 55, 0.22);
+  border-radius: 18rpx;
+  padding: 24rpx;
+  margin: 20rpx 24rpx;
+}
+.card-title { font-size: 32rpx; font-weight: 600; color: #F5EFE6; }
+
+/* 红金按钮 */
+.btn-red {
+  background: linear-gradient(135deg, #B11218 0%, #7A0E13 100%);
+  color: #F5EFE6;
+  border-radius: 14rpx;
+  font-size: 30rpx;
+  padding: 20rpx 0;
+  text-align: center;
+  border: 1rpx solid rgba(212, 175, 55, 0.4);
+}
+.btn-red.disabled, .disabled { opacity: 0.38; }
+.btn-ghost {
+  background: transparent;
+  color: #D4AF37;
+  border: 1rpx solid rgba(212, 175, 55, 0.5);
+  border-radius: 14rpx;
+  padding: 16rpx 0;
+  text-align: center;
+  font-size: 28rpx;
+}
+
+/* 文本 */
+.gold { color: #D4AF37; }
+.warn { color: #FFB020; }
+.muted { color: #8C8680; font-size: 24rpx; }
+.price { color: #D4AF37; font-weight: 700; }
+.section-title {
+  font-size: 30rpx; font-weight: 600; color: #D4AF37;
+  padding: 24rpx 24rpx 4rpx; letter-spacing: 2rpx;
+}
+
+/* 标签 */
+.tag {
+  display: inline-block; font-size: 20rpx; padding: 2rpx 12rpx;
+  border-radius: 6rpx; margin-right: 8rpx;
+  border: 1rpx solid rgba(212,175,55,.4); color: #D4AF37;
+}
+.tag-red { background: rgba(177,18,24,.25); border-color: rgba(177,18,24,.8); color: #FF9A9E; }
+.tag-warn { background: rgba(255,176,32,.15); border-color: rgba(255,176,32,.6); color: #FFB020; }
+.tag-gray { border-color: rgba(140,134,128,.5); color: #8C8680; }
+
+/* 输入 */
+.input {
+  background: rgba(255,255,255,.06);
+  border: 1rpx solid rgba(212,175,55,.25);
+  border-radius: 12rpx; padding: 16rpx 20rpx; color: #F5EFE6; font-size: 28rpx;
+}
+.row { display: flex; align-items: center; }
+.spacer { flex: 1; }
+.divider { height: 1rpx; background: rgba(212,175,55,.15); margin: 16rpx 0; }
+
+/* 可约红高亮 / 占用置灰 */
+.slot-free { border-color: rgba(177,18,24,.9); box-shadow: 0 0 12rpx rgba(177,18,24,.35); }
+.slot-gray { opacity: 0.38; filter: grayscale(0.7); }
+
+/* 空状态 */
+.empty { text-align: center; color: #8C8680; padding: 80rpx 0; font-size: 26rpx; }
+
+/* 通用头像 */
+.avatar { width: 88rpx; height: 88rpx; border-radius: 50%; background: #241719; }

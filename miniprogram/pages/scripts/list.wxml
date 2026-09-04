@@ -1,0 +1,31 @@
+<view class="bar">
+  <view class="search-wrap">
+    <image class="search-ic" src="/assets/icons/search.png"/>
+    <input class="search" placeholder="搜索剧本名称" placeholder-class="ph" value="{{keyword}}" bindinput="onSearch" />
+  </view>
+</view>
+<view class="chips">
+  <view class="chip {{grade===item?'on':''}}" wx:for="{{grades}}" wx:key="*this" bindtap="onGrade" data-v="{{item}}">{{item||'全部分级'}}</view>
+</view>
+<scroll-view scroll-x class="chips-x">
+  <view class="chip {{type===item?'on':''}}" wx:for="{{types}}" wx:key="*this" bindtap="onType" data-v="{{item}}">{{item||'全部类型'}}</view>
+</scroll-view>
+
+<view class="muted total">共 {{total}} 本</view>
+
+<view class="script" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+  <image class="cover" src="{{item.cover}}" mode="aspectFill" />
+  <view class="info">
+    <view class="name">{{item.name}} <text class="tag {{item.grade==='18+'?'tag-red':''}}">{{item.grade}}</text></view>
+    <view class="meta muted">{{item.type}} · {{item.players_min}}-{{item.players_max}}人 · {{item.duration_min}}分钟</view>
+    <view class="price">¥{{item.price}} <text class="muted">/场</text></view>
+  </view>
+</view>
+
+<view wx:if="{{!list.length && !loading}}" class="empty">没有找到匹配的剧本</view>
+<view wx:if="{{loading}}" class="empty">加载中...</view>
+<view wx:if="{{!hasMore && list.length}}" class="empty muted">— 已经到底啦 —</view>
+
+<!-- 底部留白 + 导航 -->
+<view class="tab-space"></view>
+<tab-bar active="scripts"/>

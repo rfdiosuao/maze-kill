@@ -1,0 +1,75 @@
+<!-- 未登录：一键登录 -->
+<view class="hero" wx:if="{{!user}}">
+  <image class="hero-logo" src="/assets/logo-circle.png" mode="aspectFit"/>
+  <view class="hero-title">登录谜宫全息</view>
+  <view class="hero-sub">微信一键登录 · 自动创建专属账户</view>
+  <view class="hero-sub">预约、会员卡、优惠券随身携带</view>
+  <view class="login-btn" bindtap="login">微信一键登录</view>
+  <view class="hero-tip">登录即代表同意《用户协议》与《隐私政策》</view>
+</view>
+
+<!-- 已登录：账户卡 + 菜单 -->
+<block wx:else>
+  <view class="ucard">
+    <button class="avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image class="uavatar" wx:if="{{user.avatarFull}}" src="{{user.avatarFull}}" mode="aspectFill"/>
+      <view class="uavatar uavatar-ph" wx:else>{{user.initial}}</view>
+      <view class="avatar-edit">{{saving ? '上传中' : '换头像'}}</view>
+    </button>
+    <view class="uinfo">
+      <view class="urow">
+        <input class="uname" type="nickname" value="{{user.nickname}}" bindblur="onNickname" placeholder="点击设置昵称" maxlength="20"/>
+        <text class="badge-dm" wx:if="{{user.role==='dm'}}">DM</text>
+        <text class="badge-player" wx:else>玩家</text>
+      </view>
+      <view class="muted" wx:if="{{user.role==='dm' && user.stage_name}}">主持人花名 · {{user.stage_name}}</view>
+      <view class="muted">账户ID {{user.openid}}</view>
+    </view>
+  </view>
+
+  <!-- 资料卡 -->
+  <view class="card">
+    <view class="frow">
+      <text class="flabel">手机号</text>
+      <input class="input finput" type="number" value="{{user.phone}}" placeholder="便于到店核验（选填）" bindinput="onPhone" maxlength="11"/>
+      <view class="btn-ghost mini-btn" bindtap="savePhone">保存</view>
+    </view>
+  </view>
+
+  <!-- DM 工作台（被管理员设为DM后展示） -->
+  <view class="dm-banner" wx:if="{{user.role==='dm'}}" bindtap="goStaffHome">
+    <view class="dm-left">
+      <view class="dm-title">DM 工作台</view>
+      <view class="dm-sub">我的排班 · 我的薪资 · 提成表 · 资料</view>
+    </view>
+    <view class="dm-go">进入 ›</view>
+  </view>
+
+  <!-- 菜单 -->
+  <view class="menu">
+    <view class="menu-item" bindtap="goBookings">
+      <image class="menu-ic" src="/assets/icons/calendar.png"/>
+      <text class="menu-text">我的预约</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goMember">
+      <image class="menu-ic" src="/assets/icons/card.png"/>
+      <text class="menu-text">会员卡 / 优惠券</text>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goStaffLogin">
+      <image class="menu-ic" src="/assets/icons/staff.png"/>
+      <text class="menu-text">员工账号登录（编号制）</text>
+      <text class="menu-arrow">›</text>
+    </view>
+      <view class="menu-item" bindtap="logout">
+      <image class="menu-ic" src="/assets/icons/arrow.png"/>
+      <text class="menu-text">退出登录</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+</block>
+
+<!-- 底部留白 + 导航 -->
+<view class="tab-space"></view>
+<tab-bar active="user"/>

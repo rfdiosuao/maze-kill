@@ -1,0 +1,24 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/scripts/list",
+    "pages/scripts/detail",
+    "pages/dms/list",
+    "pages/booking/index",
+    "pages/member/card",
+    "pages/user/index",
+    "pages/posts/index",
+    "pages/staff/login",
+    "pages/staff/home"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#7A0E13",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "谜宫全息剧本演绎",
+    "backgroundColor": "#100D0E",
+    "backgroundTextStyle": "dark"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

@@ -1,0 +1,64 @@
+<!-- 发现 · 帖子社区流 -->
+<!-- 顶部横幅 -->
+<view class="p-hero">
+  <view class="p-hero-tag">谜宫 · 玩家社区</view>
+  <view class="p-hero-title">发现好本 · 组队开黑</view>
+  <view class="p-hero-sub">测评、车队、组局，找对搭子一起上头</view>
+</view>
+
+<!-- 分类筛选 -->
+<view class="p-tabs">
+  <view
+    class="p-tab {{tab===item?'on':''}}"
+    wx:for="{{tabs}}"
+    wx:key="*this"
+    data-v="{{item}}"
+    bindtap="onTab"
+  >{{item}}</view>
+</view>
+
+<!-- 双列瀑布流帖子 -->
+<view class="p-feed">
+    <view
+      class="post"
+      wx:for="{{posts}}"
+      wx:key="id"
+      data-id="{{item.id}}"
+      bindtap="onPost"
+    >
+      <view class="post-cover">
+        <image wx:if="{{item.cover}}" src="{{item.cover}}" mode="aspectFill"/>
+        <view wx:else class="cover-ph">{{item.book || '谜宫'}}</view>
+      </view>
+      <view class="post-body">
+        <view class="post-title">{{item.title}}</view>
+        <view class="post-author">
+          <view class="author-av">{{item.author[0]}}</view>
+          <view class="author-info">
+            <view class="author-name">{{item.author}}<text class="author-role {{item.role==='DM'?'dm':''}}">{{item.role}}</text></view>
+            <view class="author-book" wx:if="{{item.book}}">剧本 · {{item.book}}</view>
+          </view>
+        </view>
+        <view class="post-foot">
+          <view class="like {{item.liked?'on':''}}" catchtap="onLike" data-id="{{item.id}}">
+            <text class="like-sym">{{item.liked?'♥':'♡'}}</text>
+            <text>{{item.likes}}</text>
+          </view>
+          <view class="cmt">
+            <text class="cmt-sym">💬</text>
+            <text>{{item.comments}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+</view>
+
+<!-- 发帖悬浮按钮 -->
+<view class="p-pub" bindtap="onPublish">
+  <text class="p-pub-plus">＋</text>
+  <text class="p-pub-txt">发帖</text>
+</view>
+
+<!-- 底部留白 + 导航 -->
+<view class="page-bottom"></view>
+<tab-bar active="posts"/>

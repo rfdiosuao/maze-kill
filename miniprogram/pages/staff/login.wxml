@@ -1,0 +1,12 @@
+<view class="login-wrap">
+  <image class="login-logo" src="/assets/logo-circle.png" mode="aspectFit"/>
+  <view class="login-brand">谜宫全息剧本杀</view>
+  <view class="login-sub">员工 / DM 工作台</view>
+
+  <view class="card login-card">
+    <view class="frow"><text class="flabel">编号</text><input class="input finput" type="number" placeholder="员工编号（1~30）" value="{{staff_no}}" data-f="staff_no" bindinput="onInput" /></view>
+    <view class="frow"><text class="flabel">密码</text><input class="input finput" password placeholder="密码" value="{{password}}" data-f="password" bindinput="onInput" /></view>
+    <view class="btn-red {{loading?'disabled':''}}" bindtap="login">{{loading?'登录中...':'登 录'}}</view>
+    <view class="muted tip">账号由管理员开通；薪资仅本人可见，越权访问将被拒绝</view>
+  </view>
+</view>

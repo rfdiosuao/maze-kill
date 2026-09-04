@@ -1,0 +1,64 @@
+<view class="tabs">
+  <view class="tab {{tab==='card'?'on':''}}" bindtap="switchTab" data-k="card">会员卡</view>
+  <view class="tab {{tab==='booking'?'on':''}}" bindtap="switchTab" data-k="booking">我的预约</view>
+</view>
+
+<!-- 会员卡 -->
+<block wx:if="{{tab==='card'}}">
+  <view class="vipcard" wx:if="{{card}}">
+    <image class="vip-logo" src="/assets/logo-circle.png" mode="aspectFit"/>
+    <view class="vip-name">谜宫全息 · 会员卡</view>
+    <view class="vip-balance">¥ {{card.balance}}</view>
+    <view class="muted">余额 · 消费由系统自动扣减，留流水可查</view>
+  </view>
+  <view class="card" wx:else>
+    <view class="empty">暂无会员卡，到店可办理；充值请联系店员/管理员</view>
+  </view>
+
+  <view class="section-title">优惠券</view>
+  <view class="card" wx:if="{{coupons.length}}">
+    <view class="row coupon" wx:for="{{coupons}}" wx:key="id">
+      <view>
+        <view class="coupon-name">{{item.name}}</view>
+        <view class="muted">{{item.created_at}}</view>
+      </view>
+      <view class="spacer"></view>
+      <view class="price">¥{{item.value}}</view>
+      <text class="tag {{item.status==='valid'?'':'tag-gray'}}">{{item.status==='valid'?'可用':item.status==='used'?'已使用':'已过期'}}</text>
+    </view>
+  </view>
+  <view wx:else class="empty">暂无优惠券</view>
+
+  <view class="section-title">余额流水</view>
+  <view class="card" wx:if="{{flows.length}}">
+    <view class="row flow" wx:for="{{flows}}" wx:key="id">
+      <view class="flow-info">
+        <view>{{item.remark || item.type}}</view>
+        <view class="muted">{{item.created_at}} · {{item.operator}}</view>
+      </view>
+      <view class="spacer"></view>
+      <view class="{{item.type==='consume'?'':'gold'}}">{{item.type==='consume'?'-':'+'}}¥{{item.amount}}</view>
+    </view>
+  </view>
+  <view wx:else class="empty">暂无流水</view>
+</block>
+
+<!-- 我的预约 -->
+<block wx:if="{{tab==='booking'}}">
+  <view class="card" wx:for="{{bookings}}" wx:key="id">
+    <view class="row">
+      <view class="card-title">{{item.script_name}}</view>
+      <view class="spacer"></view>
+      <text class="tag {{item.status==='locked'?'tag-red':'tag-gray'}}">{{item.status==='locked'?'已锁定':'已取消'}}</text>
+    </view>
+    <view class="muted bk-meta">
+      {{item.work_date}} {{item.slot==='noon'?'午场':'晚场'}} {{item.start_time}} · DM「{{item.dm_name}}」 · {{item.people}}人
+    </view>
+    <view class="row bk-pay">
+      <view class="muted">{{item.pay_type==='card'?'会员卡扣':'到店支付'}} <text class="price">¥{{item.amount}}</text></view>
+      <view class="spacer"></view>
+      <view wx:if="{{item.status==='locked'}}" class="btn-ghost cancel" bindtap="onCancel" data-id="{{item.id}}">取消预约</view>
+    </view>
+  </view>
+  <view wx:if="{{!bookings.length}}" class="empty">还没有预约，去首页挑一场吧</view>
+</block>

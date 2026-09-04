@@ -1,0 +1,90 @@
+<!-- 步骤1：30天日历 -->
+<view class="section-title">① 选择日期（未来30天）</view>
+<scroll-view scroll-x class="dates" enhanced show-scrollbar="{{false}}">
+  <view class="date {{selDate===item.key?'on':''}}" wx:for="{{dates}}" wx:key="key" bindtap="pickDate" data-k="{{item.key}}">
+    <view class="d-label">{{item.label}}</view>
+    <view class="d-week muted">{{item.week}}</view>
+  </view>
+</scroll-view>
+
+<!-- 步骤2：午/晚场 -->
+<view class="section-title">② 选择场次</view>
+<view class="slots">
+  <view class="slot {{selSlot===item.key?'on':''}}" wx:for="{{slots}}" wx:key="key" bindtap="pickSlot" data-k="{{item.key}}">{{item.name}}</view>
+</view>
+
+<view wx:if="{{prefScript}}" class="only-pref" bindtap="toggleOnly">
+  <text class="muted">{{onlyPref ? '☑' : '☐'}} 只看该剧本的场次</text>
+</view>
+
+<!-- 步骤3：该时段场次（剧本） -->
+<view class="section-title">③ 选择场次剧本</view>
+<view class="ses {{selSession.id===item.id?'sel':''}} {{item.assigned>=item.required_dm?'slot-gray':''}}"
+      wx:for="{{sessions}}" wx:key="id" bindtap="pickSession" data-id="{{item.id}}">
+  <view class="row">
+    <view class="ses-name">{{item.script_name}} <text class="tag {{item.grade==='18+'?'tag-red':''}}">{{item.grade}}</text></view>
+    <view class="spacer"></view>
+    <view class="price">¥{{item.price}}</view>
+  </view>
+  <view class="row muted">
+    <text>{{item.slot==='noon'?'午场':'晚场'}} {{item.start_time}}</text>
+    <text class="spacer"></text>
+    <text class="{{item.assigned>=item.required_dm?'warn':''}}">DM {{item.assigned}}/{{item.required_dm}}</text>
+    <text wx:if="{{item.assigned>=item.required_dm}}" class="tag tag-gray">已满</text>
+  </view>
+</view>
+<view wx:if="{{!sessions.length}}" class="empty">该日期暂无场次，看看其他日子吧</view>
+
+<!-- 步骤4：所需DM（每场3~4名） + 锁卡 -->
+<block wx:if="{{detail}}">
+  <view class="section-title">④ 本场所需DM（{{detail.assigned.length}}/{{detail.session.required_dm}}） · 锁1名空闲DM</view>
+  <view class="card" wx:if="{{detail.assigned.length}}">
+    <view class="card-title gold">已确认DM</view>
+    <view class="dms">
+      <view class="dmchip" wx:for="{{detail.assigned}}" wx:key="dm_id">
+        <image class="avatar" src="{{item.photo}}" mode="aspectFill" />
+        <view class="dmchip-name">{{item.stage_name}}</view>
+        <view class="tag {{item.source==='auto'?'tag-warn':'tag-gray'}}">{{item.source==='locked'?'锁卡':item.source==='auto'?'自动补位':'手动'}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="card-title gold">选择要锁的DM（空闲可点 · 占用置灰）</view>
+    <view class="divider"></view>
+    <view class="dms">
+      <view class="dmchip {{item.can_lock?'slot-free':'slot-gray'}} {{selDm.id===item.id?'sel':''}}"
+            wx:for="{{detail.pool}}" wx:key="id" bindtap="pickDm" data-id="{{item.id}}">
+        <image class="avatar" src="{{item.photo}}" mode="aspectFill" />
+        <view class="dmchip-name">{{item.stage_name}}</view>
+        <view class="muted dmchip-sub">{{item.has_skill ? '会此本' : item.reason || '空闲'}}</view>
+      </view>
+    </view>
+    <view wx:if="{{!detail.pool.length}}" class="empty">暂无可锁DM（已排满或全被占用）</view>
+  </view>
+
+  <!-- 联系与支付 -->
+  <view class="card" wx:if="{{selDm}}">
+    <view class="card-title gold">预约信息 · 已选DM「{{selDm.stage_name}}」</view>
+    <view class="divider"></view>
+    <view class="frow"><text class="flabel">联系人</text><input class="input finput" placeholder="姓名" data-f="name" bindinput="onInput" /></view>
+    <view class="frow"><text class="flabel">电话</text><input class="input finput" type="number" placeholder="手机号" data-f="phone" bindinput="onInput" /></view>
+    <view class="frow">
+      <text class="flabel">人数</text>
+      <slider class="fslider" min="3" max="10" value="{{form.people}}" show-value activeColor="#B11218" block-size="20" bindchange="onPeople" />
+    </view>
+    <view class="frow">
+      <text class="flabel">支付</text>
+      <view class="payops">
+        <view class="chip {{form.payType==='store'?'on':''}}" bindtap="onPay" data-v="store">到店支付</view>
+        <view class="chip {{form.payType==='card'?'on':''}} {{hasCard?'':'slot-gray'}}" bindtap="onPay" data-v="card">会员卡扣（{{hasCard?'有卡':'无卡'}}）</view>
+      </view>
+    </view>
+    <view class="frow" wx:if="{{form.payType==='card' && hasCoupon}}">
+      <text class="flabel">优惠券</text>
+      <view class="chip {{form.useCoupon?'on':''}}" bindtap="onCoupon">使用一张立减券</view>
+    </view>
+    <view class="btn-red {{submitting?'disabled':''}}" bindtap="submit">{{submitting?'锁卡中...':'确认锁卡预约'}}</view>
+    <view class="muted tip">同一DM同时段仅可出现在一场；提交后如遇并发冲突将自动提示</view>
+  </view>
+</block>
